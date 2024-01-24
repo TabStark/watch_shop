@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "1006181741380",
+    "project_id": "watch-shop-3cde6",
+    "storage_bucket": "watch-shop-3cde6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1006181741380:android:dad5665cdc89de899c5d11",
+        "android_client_info": {
+          "package_name": "com.example.watch_shop"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1006181741380-hl70of1bnv0ud9mfavmg1vngds1ptlbv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.watch_shop",
+            "certificate_hash": "07b45fde5ee6713d13836bc19c66f2033671edf6"
+          }
+        },
+        {
+          "client_id": "1006181741380-6cdqj8au7gnrt20589pp93ninrc8ui7j.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCDXvP9MV0w_OGZCJ0_5jEvy1E12BKtL2k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1006181741380-6cdqj8au7gnrt20589pp93ninrc8ui7j.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1006181741380-4lld6gi9v7f49pdkb9s858ak5d0qjtp9.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.watchShop"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
