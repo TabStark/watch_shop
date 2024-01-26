@@ -50,6 +50,10 @@ dependencies:
   google_fonts: ^6.1.0
   # Carsoule
   carousel_slider: ^4.2.1
+  # Shimmer 
+  shimmer: ^3.0.0
+  # Carusole
+  fan_carousel_image_slider: ^0.1.2
   
 
 dev_dependencies:

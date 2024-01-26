@@ -34,4 +34,14 @@ class DialogsWidget {
       flushbarPosition: FlushbarPosition.TOP,
     )..show(context);
   }
+
+  static void showFlushBarBottom(BuildContext context, String msg) {
+    Flushbar(
+      backgroundColor: AppColor().white,
+      message: msg,
+      messageColor: AppColor().black,
+      duration: Duration(seconds: 3),
+      flushbarPosition: FlushbarPosition.TOP,
+    )..show(context);
+  }
 }

@@ -14,6 +14,8 @@ class AppColor {
   final Color blue = Colors.blue;
   final Color navyblue = Color.fromARGB(255, 19, 45, 70);
   final Color goldBrown = Color(0xffd2a262);
+  final Color NewgoldBrown = Color(0xffdda244);
+  // final Color NewgoldBrown = Color.fromARGB(255, 183, 139, 63);
   final Color darkgoldBrown = Color(0xff99702b);
   final Color darkgreen = Color.fromARGB(255, 6, 72, 6);
   final Color dkgreen = Color.fromARGB(255, 1, 30, 1);

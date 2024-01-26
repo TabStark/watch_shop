@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:watch_shop/model/addtocartjson.dart';
 import 'package:watch_shop/model/logged_user.dart';
 import 'package:watch_shop/popup%20and%20loader/dialogs.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -70,14 +71,99 @@ class Apis {
     return collections;
   }
 
-  // Home Screen StreamBuilder for Search Brand
   // Default stream Builder
   static CollectionReference<Object?> fetchstreamsearch(String Collction) {
     final CollectionReference collections = firestore.collection(Collction);
 
     return collections;
   }
-  // for List of Brands
+
+  // AddtoCart
+  static Future<void> addtocart(
+      String brandId, DocumentSnapshot documentSnapshot) async {
+    await firestore
+        .collection('users')
+        .doc(user.uid)
+        .collection('myaddtocart')
+        .doc(brandId)
+        .get()
+        .then((value) async {
+      if (value.exists) {
+        print(value['qty']);
+        await firestore
+            .collection('users')
+            .doc(user.uid)
+            .collection('myaddtocart')
+            .doc(brandId)
+            .update({"qty": value['qty'] + 1});
+      } else {
+        final Map<String, dynamic> data =
+            documentSnapshot.data() as Map<String, dynamic>;
+        final AddtoCartJson dids = AddtoCartJson(
+          img: documentSnapshot['img'],
+          price: documentSnapshot['price'],
+          name: documentSnapshot['name'],
+          arrayimg: documentSnapshot['arrayimg'],
+          brand: documentSnapshot['brand'],
+          discription:
+              data.containsKey('discription') ? data['discription'] : '',
+          qty: 1,
+        );
+
+        firestore
+            .collection('users')
+            .doc(user.uid)
+            .collection('myaddtocart')
+            .doc(brandId)
+            .set(dids.toJson());
+        print('Data: ${brandId} \nData:${documentSnapshot['arrayimg']}');
+      }
+    });
+  }
+
+  // remove from cart
+  static Future<void> removetocart(
+      String brandId, DocumentSnapshot documentSnapshot) async {
+    await firestore
+        .collection('users')
+        .doc(user.uid)
+        .collection('myaddtocart')
+        .doc(brandId)
+        .get()
+        .then((value) async {
+      if (value.exists) {
+        print(value['qty']);
+        await firestore
+            .collection('users')
+            .doc(user.uid)
+            .collection('myaddtocart')
+            .doc(brandId)
+            .update({"qty": value['qty'] - 1});
+      }
+    });
+  }
+
+  // Delete from Cart
+  static Future<void> deletefromcart(
+      String brandId, DocumentSnapshot documentSnapshot) async {
+    await firestore
+        .collection('users')
+        .doc(user.uid)
+        .collection('myaddtocart')
+        .doc(brandId)
+        .get()
+        .then((value) async {
+      if (value.exists) {
+        print(value['qty']);
+        await firestore
+            .collection('users')
+            .doc(user.uid)
+            .collection('myaddtocart')
+            .doc(brandId)
+            .delete();
+      }
+    });
+  }
 
 /************************************Authentication ***************************/
   // Sign In With Google

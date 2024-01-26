@@ -10,7 +10,7 @@ late Size mq;
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   // To enter in full screen mode
-  SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
+  // SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
 
   // App Orientation
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])

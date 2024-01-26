@@ -19,9 +19,10 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     Timer(const Duration(seconds: 3), () {
       // To exit from full screen mode
-      SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
-      SystemChrome.setSystemUIOverlayStyle(
-          SystemUiOverlayStyle(statusBarColor: AppColor().transparent));
+      // SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+      SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+          statusBarColor: AppColor().transparent,
+          systemNavigationBarColor: AppColor().white));
 
       if (Apis.auth.currentUser != null) {
         print(Apis.auth.currentUser);

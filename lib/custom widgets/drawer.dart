@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:watch_shop/Colors/app_colors.dart';
 import 'package:watch_shop/apis/apis.dart';
 import 'package:watch_shop/main.dart';
+import 'package:watch_shop/screens/addtocart.dart';
 
 class DrawerWidget extends StatefulWidget {
   const DrawerWidget({super.key});
@@ -20,7 +21,7 @@ class _DrawerWidgetState extends State<DrawerWidget>
     return Drawer(
       child: ListView(padding: EdgeInsets.zero, children: [
         DrawerHeader(
-            decoration: BoxDecoration(color: AppColor().goldBrown),
+            decoration: BoxDecoration(color: AppColor().NewgoldBrown),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.end,
@@ -38,7 +39,7 @@ class _DrawerWidgetState extends State<DrawerWidget>
               Icon(
                 Icons.home_outlined,
                 size: 30,
-                color: AppColor().goldBrown,
+                color: AppColor().NewgoldBrown,
               ),
               SizedBox(
                 width: mq.width * .02,
@@ -53,13 +54,14 @@ class _DrawerWidgetState extends State<DrawerWidget>
         ),
         Padding(
             padding: EdgeInsets.only(left: 10, right: 10), child: Divider()),
+        // Profile
         ListTile(
           title: Row(
             children: [
               Icon(
                 Icons.person_outline,
                 size: 30,
-                color: AppColor().goldBrown,
+                color: AppColor().NewgoldBrown,
               ),
               SizedBox(
                 width: mq.width * .02,
@@ -74,25 +76,29 @@ class _DrawerWidgetState extends State<DrawerWidget>
         ),
         Padding(
             padding: EdgeInsets.only(left: 10, right: 10), child: Divider()),
+        // Add to Carts
         ListTile(
-          title: Row(
-            children: [
-              Icon(
-                Icons.shopping_cart_outlined,
-                size: 30,
-                color: AppColor().goldBrown,
-              ),
-              SizedBox(
-                width: mq.width * .02,
-              ),
-              Text(
-                'Carts',
-                style: TextStyle(color: AppColor().black, fontSize: 18),
-              )
-            ],
-          ),
-          onTap: () => Navigator.pop(context),
-        ),
+            title: Row(
+              children: [
+                Icon(
+                  Icons.shopping_cart_outlined,
+                  size: 30,
+                  color: AppColor().NewgoldBrown,
+                ),
+                SizedBox(
+                  width: mq.width * .02,
+                ),
+                Text(
+                  'Carts',
+                  style: TextStyle(color: AppColor().black, fontSize: 18),
+                )
+              ],
+            ),
+            onTap: () {
+              Navigator.pop(context);
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const AddToCart()));
+            }),
         Padding(
             padding: EdgeInsets.only(left: 10, right: 10), child: Divider()),
         ListTile(
@@ -101,7 +107,7 @@ class _DrawerWidgetState extends State<DrawerWidget>
               Icon(
                 Icons.favorite_outline,
                 size: 30,
-                color: AppColor().goldBrown,
+                color: AppColor().NewgoldBrown,
               ),
               SizedBox(
                 width: mq.width * .02,
@@ -122,7 +128,7 @@ class _DrawerWidgetState extends State<DrawerWidget>
               Icon(
                 Icons.shopping_bag_outlined,
                 size: 30,
-                color: AppColor().goldBrown,
+                color: AppColor().NewgoldBrown,
               ),
               SizedBox(
                 width: mq.width * .02,
@@ -143,7 +149,7 @@ class _DrawerWidgetState extends State<DrawerWidget>
               Icon(
                 Icons.settings_outlined,
                 size: 30,
-                color: AppColor().goldBrown,
+                color: AppColor().NewgoldBrown,
               ),
               SizedBox(
                 width: mq.width * .02,
@@ -164,7 +170,7 @@ class _DrawerWidgetState extends State<DrawerWidget>
               Icon(
                 Icons.logout,
                 size: 30,
-                color: AppColor().goldBrown,
+                color: AppColor().NewgoldBrown,
               ),
               SizedBox(
                 width: mq.width * .02,
