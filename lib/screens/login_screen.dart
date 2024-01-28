@@ -217,6 +217,7 @@ class _LoginScreenState extends State<LoginScreen>
     Apis().signInWithGoogle(context).then((user) async {
       Navigator.pop(context);
       if (user != null) {
+        print('User data: ${user}');
         if (await Apis.userExists()) {
           Navigator.pushReplacement(context,
               MaterialPageRoute(builder: (context) => const HomeScreen()));

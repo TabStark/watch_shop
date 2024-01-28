@@ -66,10 +66,13 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
-    brands();
-    _timer = Timer.periodic(Duration(milliseconds: 1200), (timer) {
-      _scrolltoNextItem();
+    Apis.getUserData().then((value) {
+      brands();
+      _timer = Timer.periodic(Duration(milliseconds: 1200), (timer) {
+        _scrolltoNextItem();
+      });
     });
+
     super.initState();
   }
 
@@ -383,7 +386,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             width: mq.width * 0.6,
                             height: mq.width * 0.6,
                             child: Image.network(
-                              'https://scontent.cdninstagram.com/v/t39.30808-6/419630001_352700024174849_3974975078541041493_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=18de74&_nc_ohc=fFSJ0H_xyIYAX-Z49Q4&_nc_ht=scontent.cdninstagram.com&edm=ANo9K5cEAAAA&oh=00_AfD-17b9s1__mGHkY5wFWsqblYhw4Eb9A_-aWptKApYcBA&oe=65B51311',
+                              'https://scontent.cdninstagram.com/v/t39.30808-6/419630001_352700024174849_3974975078541041493_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=18de74&_nc_ohc=MQGO_0ExoFwAX8sTmX_&_nc_ht=scontent.cdninstagram.com&edm=ANo9K5cEAAAA&oh=00_AfA_s4nHN0Nh5LADfFPNxVDw7Cecp51jakCz9r1Icng8sA&oe=65BB01D1',
                               fit: BoxFit.cover,
                             )),
                       ),

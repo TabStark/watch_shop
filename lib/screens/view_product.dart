@@ -5,6 +5,7 @@ import 'package:watch_shop/apis/apis.dart';
 import 'package:watch_shop/main.dart';
 import 'package:fan_carousel_image_slider/fan_carousel_image_slider.dart';
 import 'package:watch_shop/popup%20and%20loader/dialogs.dart';
+import 'package:watch_shop/screens/buy_now.dart';
 
 class ViewProductDetail extends StatefulWidget {
   final String docId;
@@ -301,7 +302,13 @@ class _ViewProductDetailState extends State<ViewProductDetail> {
                                     borderRadius: BorderRadius.circular(5)),
                                 backgroundColor: AppColor().NewgoldBrown),
                             onPressed: () {
-                              extractimg();
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => BuyNow(
+                                          docId: widget.docId,
+                                          documentSnapshot:
+                                              widget.documentSnapshot)));
                             },
                             child: Text('Buy Now',
                                 style: TextStyle(

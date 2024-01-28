@@ -62,6 +62,16 @@ class Apis {
     });
   }
 
+  // Update User Info
+  static Future<void> updateuserinfo() async {
+    print(me.phone);
+    firestore.collection('users').doc(user.uid).update({
+      'name': me.name.trim(),
+      'phone': me.phone.trim(),
+      'address': me.address.trim()
+    });
+  }
+
   // Default stream Builder
   static CollectionReference<Object?> fetchstream(
       String Collction, String docs, String subCollection) {
@@ -79,8 +89,8 @@ class Apis {
   }
 
   // AddtoCart
-  static Future<void> addtocart(
-      String brandId, DocumentSnapshot documentSnapshot) async {
+  static Future<void> addtocart(String brandId,
+      DocumentSnapshot documentSnapshot) async {
     await firestore
         .collection('users')
         .doc(user.uid)
@@ -89,7 +99,6 @@ class Apis {
         .get()
         .then((value) async {
       if (value.exists) {
-        print(value['qty']);
         await firestore
             .collection('users')
             .doc(user.uid)

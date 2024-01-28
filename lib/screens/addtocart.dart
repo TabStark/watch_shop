@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
@@ -22,11 +21,17 @@ class _AddToCartState extends State<AddToCart> with TickerProviderStateMixin {
   TextEditingController _searchController = TextEditingController();
 
   // Loading Animation
-  late final AnimationController _controller =
+  late final AnimationController _Animationcontroller =
       AnimationController(duration: Duration(seconds: 3), vsync: this)
         ..repeat();
   // for search
   bool search = false;
+
+  @override
+  void dispose() {
+    super.dispose();
+    _Animationcontroller.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,234 +53,59 @@ class _AddToCartState extends State<AddToCart> with TickerProviderStateMixin {
               ))
         ],
       ),
-      body: Container(
-        width: double.infinity,
-        height: double.infinity,
-        color: AppColor().white,
-        child: StreamBuilder(
-            stream: Apis.fetchstream('users', Apis.user.uid, 'myaddtocart')
-                .snapshots(),
-            builder: (context, AsyncSnapshot<QuerySnapshot> snapShot) {
-              if (!snapShot.hasData) {
-                return GridView.builder(
-                    itemCount: 20,
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2, childAspectRatio: .6),
-                    itemBuilder: (context, index) {
-                      return Shimmer.fromColors(
-                        baseColor: Colors.grey.shade300,
-                        highlightColor: Colors.grey.shade100,
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 20, vertical: 10),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Container(
-                                height: mq.height * 0.22,
-                                color: AppColor().white,
-                              ),
-                              Padding(
-                                padding: EdgeInsets.only(top: 10),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Container(
-                                      height: mq.height * 0.01,
-                                      color: AppColor().white,
-                                    ),
-                                    SizedBox(
-                                      height: mq.height * .01,
-                                    ),
-                                    Container(
-                                      height: mq.height * 0.01,
-                                      color: AppColor().white,
-                                    ),
-                                    SizedBox(
-                                      height: mq.height * .01,
-                                    ),
-                                    Container(
-                                      height: mq.height * 0.01,
-                                      color: AppColor().white,
-                                    )
-                                  ],
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                      );
-                    });
-              } else {
-                return Padding(
-                  padding: EdgeInsets.all(10),
-                  child: ListView.builder(
-                      itemCount: snapShot.data!.docs.length,
+      body: SafeArea(
+        child: Container(
+          width: double.infinity,
+          height: double.infinity,
+          color: AppColor().white,
+          child: StreamBuilder(
+              stream: Apis.fetchstream('users', Apis.user.uid, 'myaddtocart')
+                  .snapshots(),
+              builder: (context, AsyncSnapshot<QuerySnapshot> snapShot) {
+                if (!snapShot.hasData) {
+                  return GridView.builder(
+                      itemCount: 20,
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2, childAspectRatio: .6),
                       itemBuilder: (context, index) {
-                        print(
-                          snapShot.data!.docs.length,
-                        );
-                        final data = snapShot.data!.docs;
-                        // To take a json
-                        // print("Data : ${jsonEncode(data[0].data())}");
-                        final DocumentSnapshot documentSnapshot =
-                            snapShot.data!.docs[index];
-                        final String docid =
-                            snapShot.data!.docs[index].reference.id;
-                        final String addtocartdoc = docid;
-                        return InkWell(
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => ViewProductDetail(
-                                          documentSnapshot: documentSnapshot,
-                                          docId: addtocartdoc,
-                                        )));
-                          },
+                        return Shimmer.fromColors(
+                          baseColor: Colors.grey.shade300,
+                          highlightColor: Colors.grey.shade100,
                           child: Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 20),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 20, vertical: 10),
                             child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    SizedBox(
-                                        width: mq.width * 0.3,
-                                        child: Image.network(
-                                            documentSnapshot['img'])),
-                                    SizedBox(
-                                      width: mq.width * .6,
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            documentSnapshot['brand'],
-                                            style: TextStyle(
-                                                color: AppColor().lightgrey,
-                                                fontSize: 16),
-                                          ),
-                                          Text(
-                                            documentSnapshot['name'],
-                                            maxLines: 2,
-                                            overflow: TextOverflow.ellipsis,
-                                            style: TextStyle(
-                                                fontSize: 16,
-                                                color: AppColor().black),
-                                          ),
-                                          Text(documentSnapshot['price'],
-                                              style: TextStyle(
-                                                  fontSize: 16,
-                                                  color: AppColor().black))
-                                        ],
-                                      ),
-                                    )
-                                  ],
+                                Container(
+                                  height: mq.height * 0.22,
+                                  color: AppColor().white,
                                 ),
-                                SizedBox(
-                                  width: mq.width * 3,
-                                  child: Row(
+                                Padding(
+                                  padding: EdgeInsets.only(top: 10),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
+                                      Container(
+                                        height: mq.height * 0.01,
+                                        color: AppColor().white,
+                                      ),
                                       SizedBox(
-                                          width: mq.width * .1,
-                                          height: mq.height * .03,
-                                          child: (documentSnapshot['qty'] > 0)
-                                              ? ElevatedButton(
-                                                  style: ElevatedButton.styleFrom(
-                                                      padding:
-                                                          EdgeInsets.all(0),
-                                                      shape:
-                                                          RoundedRectangleBorder(
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          3))),
-                                                  onPressed: () {
-                                                    // Decreasing cart qty by using minus icon
-                                                    DialogsWidget
-                                                        .showProgressBar(
-                                                            context,
-                                                            _controller);
-                                                    Apis.removetocart(
-                                                            addtocartdoc,
-                                                            documentSnapshot)
-                                                        .then((value) {
-                                                      Navigator.pop(context);
-                                                      setState(() {
-                                                        documentSnapshot['qty'];
-                                                      });
-                                                    });
-                                                  },
-                                                  child: const Icon(
-                                                    Icons.remove,
-                                                    size: 17,
-                                                  ))
-                                              : ElevatedButton(
-                                                  style: ElevatedButton.styleFrom(
-                                                      padding:
-                                                          EdgeInsets.all(0),
-                                                      shape:
-                                                          RoundedRectangleBorder(
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          3))),
-                                                  onPressed: () {
-                                                    // Delete from Cart
-                                                    DialogsWidget
-                                                        .showProgressBar(
-                                                            context,
-                                                            _controller);
-                                                    Apis.deletefromcart(
-                                                            addtocartdoc,
-                                                            documentSnapshot)
-                                                        .then((value) {
-                                                      Navigator.pop(context);
-                                                      setState(() {
-                                                        documentSnapshot['qty'];
-                                                      });
-                                                    });
-                                                  },
-                                                  child: const Icon(
-                                                    Icons.delete,
-                                                    size: 17,
-                                                  ))),
+                                        height: mq.height * .01,
+                                      ),
+                                      Container(
+                                        height: mq.height * 0.01,
+                                        color: AppColor().white,
+                                      ),
                                       SizedBox(
-                                          width: mq.width * .1,
-                                          height: mq.height * .035,
-                                          child: Center(
-                                              child: Text(
-                                            documentSnapshot['qty'].toString(),
-                                          ))),
-                                      SizedBox(
-                                          width: mq.width * .1,
-                                          height: mq.height * .03,
-                                          child: ElevatedButton(
-                                              style: ElevatedButton.styleFrom(
-                                                  padding: EdgeInsets.all(0),
-                                                  shape: RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              3))),
-                                              onPressed: () {
-                                                // Icreasing cart qty by using plus icon
-                                                DialogsWidget.showProgressBar(
-                                                    context, _controller);
-                                                Apis.addtocart(addtocartdoc,
-                                                        documentSnapshot)
-                                                    .then((value) {
-                                                  Navigator.pop(context);
-                                                  setState(() {
-                                                    documentSnapshot['qty'];
-                                                  });
-                                                });
-                                              },
-                                              child: const Icon(
-                                                Icons.add,
-                                                size: 17,
-                                              ))),
+                                        height: mq.height * .01,
+                                      ),
+                                      Container(
+                                        height: mq.height * 0.01,
+                                        color: AppColor().white,
+                                      )
                                     ],
                                   ),
                                 )
@@ -283,10 +113,198 @@ class _AddToCartState extends State<AddToCart> with TickerProviderStateMixin {
                             ),
                           ),
                         );
-                      }),
-                );
-              }
-            }),
+                      });
+                } else {
+                  return Padding(
+                    padding: EdgeInsets.all(10),
+                    child: ListView.builder(
+                        itemCount: snapShot.data!.docs.length,
+                        itemBuilder: (context, index) {
+                          print(
+                            snapShot.data!.docs.length,
+                          );
+                          final data = snapShot.data!.docs;
+                          // To take a json
+                          // print("Data : ${jsonEncode(data[0].data())}");
+                          final DocumentSnapshot documentSnapshot =
+                              snapShot.data!.docs[index];
+                          final String docid =
+                              snapShot.data!.docs[index].reference.id;
+                          final String addtocartdoc = docid;
+                          return InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => ViewProductDetail(
+                                            documentSnapshot: documentSnapshot,
+                                            docId: addtocartdoc,
+                                          )));
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 20),
+                              child: Column(
+                                children: [
+                                  Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      SizedBox(
+                                          width: mq.width * 0.3,
+                                          child: Image.network(
+                                              documentSnapshot['img'])),
+                                      SizedBox(
+                                        width: mq.width * 0.01,
+                                      ),
+                                      SizedBox(
+                                        width: mq.width * .6,
+                                        height: mq.height * 0.16,
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Text(
+                                              documentSnapshot['brand'],
+                                              style: TextStyle(
+                                                  color: AppColor().lightgrey,
+                                                  fontSize: 16),
+                                            ),
+                                            Text(
+                                              documentSnapshot['name'],
+                                              maxLines: 2,
+                                              overflow: TextOverflow.ellipsis,
+                                              style: TextStyle(
+                                                  fontSize: 16,
+                                                  color: AppColor().black),
+                                            ),
+                                            Text(documentSnapshot['price'],
+                                                style: TextStyle(
+                                                    fontSize: 16,
+                                                    color: AppColor().black))
+                                          ],
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    width: mq.width * 3,
+                                    child: Row(
+                                      children: [
+                                        SizedBox(
+                                            width: mq.width * .1,
+                                            height: mq.height * .03,
+                                            child: (documentSnapshot['qty'] > 1)
+                                                ? ElevatedButton(
+                                                    style: ElevatedButton.styleFrom(
+                                                        padding:
+                                                            EdgeInsets.all(0),
+                                                        shape: RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        3))),
+                                                    onPressed: () {
+                                                      // Decreasing cart qty by using minus icon
+                                                      DialogsWidget.showProgressBar(
+                                                          context,
+                                                          _Animationcontroller);
+                                                      Apis.removetocart(
+                                                              addtocartdoc,
+                                                              documentSnapshot)
+                                                          .then((value) {
+                                                        Navigator.pop(context);
+                                                        setState(() {
+                                                          documentSnapshot[
+                                                              'qty'];
+                                                        });
+                                                      });
+                                                    },
+                                                    child: const Icon(
+                                                      Icons.remove,
+                                                      size: 17,
+                                                    ))
+                                                : ElevatedButton(
+                                                    style: ElevatedButton.styleFrom(
+                                                        padding:
+                                                            EdgeInsets.all(0),
+                                                        shape: RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        3))),
+                                                    onPressed: () {
+                                                      // Delete from Cart
+                                                      DialogsWidget.showProgressBar(
+                                                          context,
+                                                          _Animationcontroller);
+                                                      Apis.deletefromcart(
+                                                              addtocartdoc,
+                                                              documentSnapshot)
+                                                          .then((value) {
+                                                        Navigator.pop(context);
+                                                        setState(() {
+                                                          documentSnapshot[
+                                                              'qty'];
+                                                        });
+                                                      });
+                                                    },
+                                                    child: const Icon(
+                                                      Icons.delete,
+                                                      size: 17,
+                                                    ))),
+                                        SizedBox(
+                                            width: mq.width * .1,
+                                            height: mq.height * .035,
+                                            child: Center(
+                                                child: Text(
+                                              documentSnapshot['qty']
+                                                  .toString(),
+                                            ))),
+                                        SizedBox(
+                                            width: mq.width * .1,
+                                            height: mq.height * .03,
+                                            child: ElevatedButton(
+                                                style: ElevatedButton.styleFrom(
+                                                    padding: EdgeInsets.all(0),
+                                                    shape:
+                                                        RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        3))),
+                                                onPressed: () {
+                                                  // Icreasing cart qty by using plus icon
+                                                  DialogsWidget.showProgressBar(
+                                                      context,
+                                                      _Animationcontroller);
+                                                  Apis.addtocart(addtocartdoc,
+                                                          documentSnapshot)
+                                                      .then((value) {
+                                                    Navigator.pop(context);
+                                                    setState(() {
+                                                      documentSnapshot['qty'];
+                                                    });
+                                                  });
+                                                },
+                                                child: const Icon(
+                                                  Icons.add,
+                                                  size: 17,
+                                                ))),
+                                      ],
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          );
+                        }),
+                  );
+                }
+              }),
+        ),
       ),
     );
   }

@@ -7,20 +7,20 @@ class LoggedUser {
     required this.id,
     required this.email,
   });
-  late final String img;
-  late final String address;
-  late final String phone;
-  late final String name;
-  late final String id;
-  late final String email;
-  
-  LoggedUser.fromJson(Map<String, dynamic> json){
-    img = json['img'];
-    address = json['address'];
-    phone = json['phone'];
-    name = json['name'];
-    id = json['id'];
-    email = json['email'];
+  late String img;
+  late String address;
+  late String phone;
+  late String name;
+  late String id;
+  late String email;
+
+  LoggedUser.fromJson(Map<String, dynamic> json) {
+    img = json['img'] ?? '';
+    address = json['address'] ?? '';
+    phone = json['phone'] ?? '';
+    name = json['name'] ?? '';
+    id = json['id'] ?? '';
+    email = json['email'] ?? '';
   }
 
   Map<String, dynamic> toJson() {
