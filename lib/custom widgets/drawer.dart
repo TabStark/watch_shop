@@ -3,6 +3,7 @@ import 'package:watch_shop/Colors/app_colors.dart';
 import 'package:watch_shop/apis/apis.dart';
 import 'package:watch_shop/main.dart';
 import 'package:watch_shop/screens/addtocart.dart';
+import 'package:watch_shop/screens/order_items.dart';
 import 'package:watch_shop/screens/profile_screen.dart';
 
 class DrawerWidget extends StatefulWidget {
@@ -140,12 +141,16 @@ class _DrawerWidgetState extends State<DrawerWidget>
                 width: mq.width * .02,
               ),
               Text(
-                'Your Order',
+                'My Order',
                 style: TextStyle(color: AppColor().black, fontSize: 18),
               )
             ],
           ),
-          onTap: () => Navigator.pop(context),
+          onTap: () {
+            Navigator.pop(context);
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const OrderItems()));
+          },
         ),
         Padding(
             padding: EdgeInsets.only(left: 10, right: 10), child: Divider()),

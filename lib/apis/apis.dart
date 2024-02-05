@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:watch_shop/model/addtocartjson.dart';
 import 'package:watch_shop/model/logged_user.dart';
+import 'package:watch_shop/model/order.dart';
 import 'package:watch_shop/popup%20and%20loader/dialogs.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:watch_shop/screens/home_screen.dart';
@@ -89,8 +90,8 @@ class Apis {
   }
 
   // AddtoCart
-  static Future<void> addtocart(String brandId,
-      DocumentSnapshot documentSnapshot) async {
+  static Future<void> addtocart(
+      String brandId, DocumentSnapshot documentSnapshot) async {
     await firestore
         .collection('users')
         .doc(user.uid)
@@ -131,8 +132,7 @@ class Apis {
   }
 
   // remove from cart
-  static Future<void> removetocart(
-      String brandId, DocumentSnapshot documentSnapshot) async {
+  static Future<void> removetocart(String brandId) async {
     await firestore
         .collection('users')
         .doc(user.uid)
@@ -153,8 +153,7 @@ class Apis {
   }
 
   // Delete from Cart
-  static Future<void> deletefromcart(
-      String brandId, DocumentSnapshot documentSnapshot) async {
+  static Future<void> deletefromcart(String brandId) async {
     await firestore
         .collection('users')
         .doc(user.uid)
@@ -174,9 +173,55 @@ class Apis {
     });
   }
 
+  // Order
+  static Future<void> OrderItem(
+      String brandId, DocumentSnapshot documentSnapshot) async {
+    final Map<String, dynamic> data =
+        documentSnapshot.data() as Map<String, dynamic>;
+    final time = DateTime.now().millisecondsSinceEpoch.toString();
+    final OrderJson myOrder = OrderJson(
+      img: documentSnapshot['img'],
+      price: documentSnapshot['price'],
+      name: documentSnapshot['name'],
+      arrayimg: documentSnapshot['arrayimg'],
+      brand: documentSnapshot['brand'],
+      discription: data.containsKey('discription') ? data['discription'] : '',
+      qty: data.containsKey('qty') ? data['qty'] : 1,
+      ordertime: time,
+    );
+
+    firestore
+        .collection('users')
+        .doc(user.uid)
+        .collection('myOrder')
+        .doc(brandId)
+        .set(myOrder.toJson());
+    // print('Data: ${brandId} \nData:${documentSnapshot['arrayimg']}');
+  }
+
+  // Cancel Order
+  static Future<void> cancelorder(String brandId) async {
+    await firestore
+        .collection('users')
+        .doc(user.uid)
+        .collection('myOrder')
+        .doc(brandId)
+        .get()
+        .then((value) async {
+      if (value.exists) {
+        await firestore
+            .collection('users')
+            .doc(user.uid)
+            .collection('myOrder')
+            .doc(brandId)
+            .delete();
+      }
+    });
+  }
+
 /************************************Authentication ***************************/
   // Sign In With Google
-  Future<UserCredential?> signInWithGoogle(BuildContext context) async {
+  Future<UserCredential?> signInWithGoogle() async {
     try {
       // Trigger the authentication flow
       final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
@@ -195,14 +240,12 @@ class Apis {
       return await FirebaseAuth.instance.signInWithCredential(credential);
     } catch (e) {
       print("signInWithGoogle: ${e} ");
-      DialogsWidget.showFlushBar(
-          context, "Something went wrong try again later");
+      
       return null;
     }
   }
 
   // Sign Up with Email
-
   Future<UserCredential?> signUpWithEmail(
       BuildContext context, Useremail, Userpassword) async {
     try {

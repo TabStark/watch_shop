@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
@@ -18,7 +17,7 @@ class AddToCart extends StatefulWidget {
 }
 
 class _AddToCartState extends State<AddToCart> with TickerProviderStateMixin {
-  TextEditingController _searchController = TextEditingController();
+  
 
   // Loading Animation
   late final AnimationController _Animationcontroller =
@@ -123,7 +122,7 @@ class _AddToCartState extends State<AddToCart> with TickerProviderStateMixin {
                           print(
                             snapShot.data!.docs.length,
                           );
-                          final data = snapShot.data!.docs;
+                          // final data = snapShot.data!.docs;
                           // To take a json
                           // print("Data : ${jsonEncode(data[0].data())}");
                           final DocumentSnapshot documentSnapshot =
@@ -212,8 +211,7 @@ class _AddToCartState extends State<AddToCart> with TickerProviderStateMixin {
                                                           context,
                                                           _Animationcontroller);
                                                       Apis.removetocart(
-                                                              addtocartdoc,
-                                                              documentSnapshot)
+                                                              addtocartdoc)
                                                           .then((value) {
                                                         Navigator.pop(context);
                                                         setState(() {
@@ -241,8 +239,7 @@ class _AddToCartState extends State<AddToCart> with TickerProviderStateMixin {
                                                           context,
                                                           _Animationcontroller);
                                                       Apis.deletefromcart(
-                                                              addtocartdoc,
-                                                              documentSnapshot)
+                                                              addtocartdoc)
                                                           .then((value) {
                                                         Navigator.pop(context);
                                                         setState(() {

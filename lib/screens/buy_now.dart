@@ -4,6 +4,7 @@ import 'package:watch_shop/Colors/app_colors.dart';
 import 'package:watch_shop/apis/apis.dart';
 import 'package:watch_shop/main.dart';
 import 'package:watch_shop/screens/payment_screen.dart';
+import 'package:intl/intl.dart';
 
 class BuyNow extends StatefulWidget {
   final String docId;
@@ -19,6 +20,7 @@ class _BuyNowState extends State<BuyNow> {
   bool addressbool = true;
   TextEditingController _addressController = TextEditingController();
   final _form = GlobalKey<FormState>();
+
   @override
   void initState() {
     super.initState();
@@ -27,6 +29,19 @@ class _BuyNowState extends State<BuyNow> {
 
   @override
   Widget build(BuildContext context) {
+    // To store Qty
+    final int totalqty =
+        (widget.documentSnapshot.data() as Map<String, dynamic>?)
+                    ?.containsKey('qty') ??
+                false
+            ? widget.documentSnapshot['qty']
+            : 1;
+
+    // Remove Special Character from string (Price)
+    String newPrice = widget.documentSnapshot['price'];
+    int totalPrice =
+        int.parse(newPrice.replaceAll(',', '').replaceAll('₹', ''));
+    NumberFormat myFormat = NumberFormat.decimalPattern('en_us');
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppColor().white,
@@ -93,6 +108,7 @@ class _BuyNowState extends State<BuyNow> {
                     padding: EdgeInsets.symmetric(horizontal: mq.width * 0.05),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         SizedBox(
                           height: mq.height * 0.02,
@@ -160,13 +176,7 @@ class _BuyNowState extends State<BuyNow> {
                                       fontSize: 20,
                                       fontWeight: FontWeight.w500)),
                             ),
-                            Text(
-                                (widget.documentSnapshot.data()
-                                                as Map<String, dynamic>?)
-                                            ?.containsKey('qty') ??
-                                        false
-                                    ? widget.documentSnapshot['qty'].toString()
-                                    : '1',
+                            Text(totalqty.toString(),
                                 style: TextStyle(
                                     fontSize: 15, fontWeight: FontWeight.w500)),
                           ],
@@ -187,6 +197,27 @@ class _BuyNowState extends State<BuyNow> {
                                       fontWeight: FontWeight.w500)),
                             ),
                             Text(widget.documentSnapshot['price'],
+                                style: TextStyle(
+                                    fontSize: 15, fontWeight: FontWeight.w500)),
+                          ],
+                        ),
+                        SizedBox(
+                          height: mq.height * 0.02,
+                        ),
+
+                        // Total Price
+                        // PRICE
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            SizedBox(
+                              width: mq.width * 0.35,
+                              child: Text('Total Price : ',
+                                  style: TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w500)),
+                            ),
+                            Text("₹${(myFormat.format(totalPrice * totalqty))}",
                                 style: TextStyle(
                                     fontSize: 15, fontWeight: FontWeight.w500)),
                           ],
@@ -233,60 +264,87 @@ class _BuyNowState extends State<BuyNow> {
                                   },
                                   icon: const Icon(Icons.edit))),
                         ),
-                        SizedBox(height: mq.height * .05),
+                        SizedBox(height: mq.height * .04),
 
                         // PROCEED TO PAYMENT BUTTONS
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            SizedBox(
-                              height: mq.height * .055,
-                              width: mq.width * 0.37,
-                              child: ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(5)),
-                                      backgroundColor: AppColor().white),
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  },
-                                  child: Text('Cancel',
-                                      style: TextStyle(
-                                          color: Color(0xff0a0200),
-                                          fontSize: 18))),
-                            ),
-                            SizedBox(
-                              height: mq.height * .055,
-                              width: mq.width * 0.37,
-                              child: ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(5)),
-                                      backgroundColor: AppColor().NewgoldBrown),
-                                  onPressed: () async {
-                                    if (_form.currentState!.validate()) {
-                                      _form.currentState!.save();
-                                      await Apis.updateuserinfo().then((value) {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    PaymentScreen(
-                                                        docId: widget.docId,
-                                                        documentSnapshot: widget
-                                                            .documentSnapshot)));
-                                      });
-                                    }
-                                  },
-                                  child: Text('Confirm',
-                                      style: TextStyle(
-                                          color: Color(0xff0a0200),
-                                          fontSize: 18))),
-                            ),
-                          ],
-                        )
+                        SizedBox(
+                          height: mq.height * .055,
+                          width: mq.width * 1,
+                          child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(5)),
+                                  backgroundColor: AppColor().NewgoldBrown),
+                              onPressed: () async {
+                                if (_form.currentState!.validate()) {
+                                  _form.currentState!.save();
+                                  await Apis.updateuserinfo().then((value) {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => PaymentScreen(
+                                                docId: widget.docId,
+                                                documentSnapshot:
+                                                    widget.documentSnapshot)));
+                                  });
+                                }
+                              },
+                              child: Text('Continue',
+                                  style: TextStyle(
+                                      color: Color(0xff0a0200), fontSize: 18))),
+                        ),
+
+                        // Row(
+                        //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        //   children: [
+                        //     // SizedBox(
+                        //     //   height: mq.height * .055,
+                        //     //   width: mq.width * 0.37,
+                        //     //   child: ElevatedButton(
+                        //     //       style: ElevatedButton.styleFrom(
+                        //     //           shape: RoundedRectangleBorder(
+                        //     //               borderRadius:
+                        //     //                   BorderRadius.circular(5)),
+                        //     //           backgroundColor: AppColor().white),
+                        //     //       onPressed: () {
+                        //     //         Navigator.pop(context);
+                        //     //       },
+                        //     //       child: Text('Cancel',
+                        //     //           style: TextStyle(
+                        //     //               color: Color(0xff0a0200),
+                        //     //               fontSize: 18))),
+                        //     // ),
+                        //     SizedBox(
+                        //       height: mq.height * .055,
+                        //       width: mq.width * 0.37,
+                        //       child: ElevatedButton(
+                        //           style: ElevatedButton.styleFrom(
+                        //               shape: RoundedRectangleBorder(
+                        //                   borderRadius:
+                        //                       BorderRadius.circular(5)),
+                        //               backgroundColor: AppColor().NewgoldBrown),
+                        //           onPressed: () async {
+                        //             if (_form.currentState!.validate()) {
+                        //               _form.currentState!.save();
+                        //               await Apis.updateuserinfo().then((value) {
+                        //                 Navigator.push(
+                        //                     context,
+                        //                     MaterialPageRoute(
+                        //                         builder: (context) =>
+                        //                             PaymentScreen(
+                        //                                 docId: widget.docId,
+                        //                                 documentSnapshot: widget
+                        //                                     .documentSnapshot)));
+                        //               });
+                        //             }
+                        //           },
+                        //           child: Text('Confirm',
+                        //               style: TextStyle(
+                        //                   color: Color(0xff0a0200),
+                        //                   fontSize: 18))),
+                        //     ),
+                        //   ],
+                        // )
                       ],
                     )),
               ],

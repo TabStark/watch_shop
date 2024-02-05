@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
@@ -23,9 +21,6 @@ class ShowList extends StatefulWidget {
 }
 
 class _ShowListState extends State<ShowList> {
-  TextEditingController _searchController = TextEditingController();
-  // for search
-  bool search = false;
 
   @override
   Widget build(BuildContext context) {
@@ -126,7 +121,7 @@ class _ShowListState extends State<ShowList> {
                           const SliverGridDelegateWithFixedCrossAxisCount(
                               crossAxisCount: 2, childAspectRatio: .6),
                       itemBuilder: (context, index) {
-                        final data = snapShot.data!.docs;
+                        // final data = snapShot.data!.docs;
                         // To take a json
                         // print("Data : ${jsonEncode(data[0].data())}");
                         final DocumentSnapshot documentSnapshot =

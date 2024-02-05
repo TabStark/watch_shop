@@ -17,9 +17,10 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
+     SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
     Timer(const Duration(seconds: 3), () {
       // To exit from full screen mode
-      // SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+     
       SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
           statusBarColor: AppColor().transparent,
           systemNavigationBarColor: AppColor().white));
@@ -37,6 +38,14 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
   }
 
+  // TO exit from Full Screen
+  @override
+  void dispose() {
+    super.dispose();
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
+        overlays: SystemUiOverlay.values);
+  }
+
   @override
   Widget build(BuildContext context) {
     mq = MediaQuery.of(context).size;
@@ -44,8 +53,15 @@ class _SplashScreenState extends State<SplashScreen> {
       body: Container(
         height: double.infinity,
         width: double.infinity,
-        child: const Center(
-          child: Text("Splash Screen"),
+        color: AppColor().black,
+        child: Center(
+          child: Container(
+            width: mq.width * 0.6,
+            child: Image.asset(
+              'assets/images/splashimg.png',
+              fit: BoxFit.cover,
+            ),
+          ),
         ),
       ),
     );

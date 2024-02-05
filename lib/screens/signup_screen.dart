@@ -37,7 +37,7 @@ class _SignUpScreenState extends State<SignUpScreen>
         decoration: BoxDecoration(color: AppColor().black),
         child: Center(
           child: Container(
-            height: mq.height * .6,
+            height: mq.height * .65,
             width: mq.width * .9,
             padding:
                 const EdgeInsets.only(top: 20, bottom: 20, left: 40, right: 40),
@@ -263,7 +263,7 @@ class _SignUpScreenState extends State<SignUpScreen>
   // Google Sign in Funtion
   _handleGoogleSignin() {
     DialogsWidget.showProgressBar(context, _controller);
-    Apis().signInWithGoogle(context).then((user) async {
+    Apis().signInWithGoogle().then((user) async {
       Navigator.pop(context);
       if (user != null) {
         if (await Apis.userExists()) {
@@ -275,6 +275,9 @@ class _SignUpScreenState extends State<SignUpScreen>
                 MaterialPageRoute(builder: (context) => const HomeScreen()));
           });
         }
+      } else {
+        DialogsWidget.showFlushBar(
+            context, 'Something went wrong try again later');
       }
     });
   }
